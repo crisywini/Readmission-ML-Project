@@ -3,17 +3,30 @@ import click
 import logging
 from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
+import pandas as pd
+from preprocessing import process_data
 
 
-@click.command()
-@click.argument('input_filepath', type=click.Path(exists=True))
-@click.argument('output_filepath', type=click.Path())
+
 def main(input_filepath, output_filepath):
     """ Runs data processing scripts to turn raw data from (../raw) into
         cleaned data ready to be analyzed (saved in ../processed).
+        https://archive.ics.uci.edu/ml/machine-learning-databases/00296/dataset_diabetes.zip
     """
     logger = logging.getLogger(__name__)
     logger.info('making final data set from raw data')
+
+    logger.info('reading data')
+    data_raw = pd.read_csv(f"{input_filepath}/diabetic_data.csv")
+    
+    logger.info('processing data')
+    processed_data = process_data(data_raw)
+
+    print(f'ready data = {processed_data.shape}')
+
+    logger.info('saving processed data')
+    processed_data.reset_index(inplace=True, drop=True)
+    processed_data.to_csv(f'{output_filepath}/diabetic_data_clean.csv',index=False)
 
 
 if __name__ == '__main__':
@@ -27,4 +40,6 @@ if __name__ == '__main__':
     # load up the .env entries as environment variables
     load_dotenv(find_dotenv())
 
-    main()
+    main(f'{project_dir}/data/raw', f'{project_dir}/data/interim')
+
+   

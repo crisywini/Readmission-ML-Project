@@ -62,6 +62,18 @@ The model is saved in the models folder:
 
 `NB_pipeline_imbalance_recall.joblib`
 
+# Run Final Scripts
+
+## Download dataset
+
+```bash
+make data
+```
+## Clean dataset
+turn raw data from (../raw) into  cleaned data ready to be transformed for data modeling
+```bash     
+python src/data/make_dataset.py
+```
 
 
 Project Organization
@@ -111,7 +123,6 @@ Project Organization
     │       └── visualize.py
     │
     └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
-
 
 --------
 

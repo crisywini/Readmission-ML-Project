@@ -10,6 +10,7 @@ PROFILE = default
 PROJECT_NAME = diabetes-classification
 PYTHON_INTERPRETER = python3
 
+
 ifeq (,$(shell which conda))
 HAS_CONDA=False
 else
@@ -26,7 +27,12 @@ requirements: test_environment
 	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
 
 ## Make Dataset
-data: requirements
+data: #requirements
+	@echo ">>> Downloading data from UCI."
+    UCI_DATA_URL = https://archive.ics.uci.edu/ml/machine-learning-databases/00296/dataset_diabetes.zip
+    curl -o data/raw/data.zip $(UCI_DATA_URL)
+	@echo ">>> Unzipping."
+	unzip -j data/raw/data.zip -d data/raw
 	$(PYTHON_INTERPRETER) src/data/make_dataset.py data/raw data/processed
 
 ## Delete all compiled Python files
