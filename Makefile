@@ -1,4 +1,4 @@
-.PHONY: clean data lint requirements sync_data_to_s3 sync_data_from_s3
+.PHONY: clean data data_model lint requirements
 
 #################################################################################
 # GLOBALS                                                                       #
@@ -8,7 +8,7 @@ PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 BUCKET = 1
 PROFILE = default
 PROJECT_NAME = diabetes-classification
-PYTHON_INTERPRETER = python3
+PYTHON_INTERPRETER = python
 
 
 ifeq (,$(shell which conda))
@@ -28,12 +28,23 @@ requirements: test_environment
 
 ## Make Dataset
 data: #requirements
-	@echo ">>> Downloading data from UCI."
-    UCI_DATA_URL = https://archive.ics.uci.edu/ml/machine-learning-databases/00296/dataset_diabetes.zip
-    curl -o data/raw/data.zip $(UCI_DATA_URL)
-	@echo ">>> Unzipping."
-	unzip -j data/raw/data.zip -d data/raw
-	$(PYTHON_INTERPRETER) src/data/make_dataset.py data/raw data/processed
+	@echo ">>> Preprocessing data."
+	$(PYTHON_INTERPRETER) src/data/make_dataset.py
+
+## Make data for machine learning modeling
+data_model:
+	@echo ">>> Preprocessing data for machine learning"
+	$(PYTHON_INTERPRETER) src/features/build_features.py
+
+## train machine learning model
+train_model:
+	@echo ">>> train machine learning model"
+	$(PYTHON_INTERPRETER) src/models/train_model.py	
+
+## train machine learning model
+evaluation:
+	@echo ">>> evaluate machine learning model"
+	$(PYTHON_INTERPRETER) src/models/evaluation.py		
 
 ## Delete all compiled Python files
 clean:
@@ -43,22 +54,6 @@ clean:
 ## Lint using flake8
 lint:
 	flake8 src
-
-## Upload Data to S3
-sync_data_to_s3:
-ifeq (default,$(PROFILE))
-	aws s3 sync data/ s3://$(BUCKET)/data/
-else
-	aws s3 sync data/ s3://$(BUCKET)/data/ --profile $(PROFILE)
-endif
-
-## Download Data from S3
-sync_data_from_s3:
-ifeq (default,$(PROFILE))
-	aws s3 sync s3://$(BUCKET)/data/ data/
-else
-	aws s3 sync s3://$(BUCKET)/data/ data/ --profile $(PROFILE)
-endif
 
 ## Set up python interpreter environment
 create_environment:
