@@ -50,6 +50,9 @@ def main(input_filepath, output_filepath, input_test_filepath, report_filepath):
 
     y_test_pred = model.predict(x_test_model)
 
+    test_eval.to_csv(f"{input_filepath}/x_test_model_input.csv")
+    np.savetxt(f"{input_filepath}/y_test_pred.csv",y_test_pred, delimiter=",")
+
     test_score = recall_score(y_test_model, y_test_pred)
     print(f"Test Score: {test_score}")
 
