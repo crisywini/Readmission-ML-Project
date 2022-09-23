@@ -64,16 +64,33 @@ The model is saved in the models folder:
 
 # Run Final Scripts
 
-## Download dataset
-
-```bash
-make data
-```
 ## Clean dataset
-turn raw data from (../raw) into  cleaned data ready to be transformed for data modeling
+download and turn raw data from (../raw) into cleaned data ready to be transformed for data modeling
 ```bash     
 python src/data/make_dataset.py
 ```
+
+## Make data for machine learning modeling
+transform data for machine learning
+```bash
+python src/features/build_features.py
+```
+
+## train machine learning model
+```bash
+python src/models/train_model.py
+```
+
+## evaluate machine learning model
+```bash
+python src/models/evaluation.py
+```
+## Unit testing
+
+```bash
+coverage run -m pytest; coverage report
+```
+
 
 
 Project Organization

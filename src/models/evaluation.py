@@ -80,7 +80,7 @@ def feature_process(data: pd.DataFrame) -> pd.DataFrame:
             'glipizide-metformin', 'troglitazone', 'tolbutamide',
             'acetohexamide']
 
-    med_specialty = ['Unknow', 'InternalMedicine', 'Family/GeneralPractice',
+    med_specialty = ['Unknown', 'InternalMedicine', 'Family/GeneralPractice',
                      'Cardiology', 'Surgery-General', 'Orthopedics', 'Gastroenterology',
                      'Nephrology', 'Orthopedics-Reconstructive',
                      'Surgery-Cardiovascular/Thoracic', 'Pulmonology', 'Psychiatry',

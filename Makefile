@@ -41,7 +41,7 @@ train_model:
 	@echo ">>> train machine learning model"
 	$(PYTHON_INTERPRETER) src/models/train_model.py	
 
-## train machine learning model
+## evaluate machine learning model
 evaluation:
 	@echo ">>> evaluate machine learning model"
 	$(PYTHON_INTERPRETER) src/models/evaluation.py		
