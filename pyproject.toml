@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "readmission-ml-project"
+version = "0.1.0"
+description = ""
+authors = ["Jose R. Zapata <jjrzg@hotmail.com>"]
+readme = "README.md"
+packages = [{include = "readmission_ml_project"}]
+
+[tool.poetry.dependencies]
+python = ">=3.9, <3.11"
+coverage = "^7.2.7"
+pytest = "^7.3.1"
+flake8 = "^6.0.0"
+python-dotenv = ">=0.5.1"
+matplotlib = ">=3.2.2"
+numpy = ">=1.18.5"
+scipy = ">=1.5.0"
+sklearn-evaluation = ">=0.5"
+joblib = ">=0.16.0"
+pandas = "1.5.3"
+scikit-learn = "1.1.1"
+
+
+[tool.poetry.group.dev.dependencies]
+jupyter = "^1.0.0"
+pandas-profiling = "^3.6.6"
+plotly = "^5.14.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
